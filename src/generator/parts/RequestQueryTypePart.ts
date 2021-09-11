@@ -1,5 +1,6 @@
 import { QUERY_IDENTIFIER } from "../constants";
 import { GeneratorPart, GeneratorPartOptions, Route } from "../types";
+import { GeneratorUtility } from "../GeneratorUtility";
 
 export class RequestQueryTypePart implements GeneratorPart {
   constructor(private _route: Route) {}
@@ -10,10 +11,13 @@ export class RequestQueryTypePart implements GeneratorPart {
     config,
   }: GeneratorPartOptions): Promise<void> {
     const { path, method } = this._route;
-    const queryParams = context.getRouteParametersOfKind(this._route, "query");
+    const queryParams = GeneratorUtility.getRouteParametersOfKind(
+      this._route,
+      "query"
+    );
 
     let queryParamsDefinition = `{}`;
-    const identifierQuery = context.getRequestHandlerTypeIdentifierName(
+    const identifierQuery = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       QUERY_IDENTIFIER
     );

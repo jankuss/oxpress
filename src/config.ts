@@ -1,4 +1,4 @@
-import path = require("path");
+import * as path from "path";
 import { GeneratorConfig } from "./generator/types";
 import * as deepMerge from "deepmerge";
 
@@ -15,7 +15,7 @@ export function getConfig(commandParams: Partial<CommandOptions>) {
 
 const defaultConfigPath = "./oxpress.config.js";
 
-const defaultGeneratorOptions: GeneratorConfig = {
+export const defaultGeneratorOptions: GeneratorConfig = {
   validationMiddleware: true,
   invokeValidationMiddleware: true,
   validatorOptions: { validateResponses: true, validateRequests: true },

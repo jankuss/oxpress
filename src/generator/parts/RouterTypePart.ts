@@ -5,6 +5,7 @@ import {
   Route,
 } from "../types";
 import { REQUEST_HANDLER_IDENTIFIER } from "../constants";
+import { GeneratorUtility } from "../GeneratorUtility";
 
 export class RouterTypePart implements GeneratorPart {
   async visit({ output, context }: GeneratorPartOptions): Promise<void> {
@@ -25,12 +26,12 @@ const RouteType = (context: GeneratorContext) => {
 
 const RouteTypeProperty = (context: GeneratorContext, route: Route) => {
   const { method, path } = route;
-  const handlerIdentifier = context.getRequestHandlerTypeIdentifierName(
+  const handlerIdentifier = GeneratorUtility.getRouteSpecificIdentifier(
     route,
     REQUEST_HANDLER_IDENTIFIER
   );
 
-  const expressRoute = context.getExpressRoute(path);
+  const expressRoute = GeneratorUtility.getExpressRoute(path);
 
   const strings: string[] = [];
   if (route.operation?.summary != null) {

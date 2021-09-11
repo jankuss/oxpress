@@ -5,25 +5,26 @@ import {
   REQUEST_IDENTIFIER,
 } from "../constants";
 import { GeneratorPart, GeneratorPartOptions, Route } from "../types";
+import { GeneratorUtility } from "../GeneratorUtility";
 
 export class RequestTypePart implements GeneratorPart {
   constructor(private _route: Route) {}
 
   async visit({ context, output }: GeneratorPartOptions): Promise<void> {
-    const identifierRequest = context.getRequestHandlerTypeIdentifierName(
+    const identifierRequest = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       REQUEST_IDENTIFIER
     );
-    const identifierPathParams = context.getRequestHandlerTypeIdentifierName(
+    const identifierPathParams = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       PARAM_IDENTIFIER
     );
-    const identifierQuery = context.getRequestHandlerTypeIdentifierName(
+    const identifierQuery = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       QUERY_IDENTIFIER
     );
 
-    const identifierBody = context.getRequestHandlerTypeIdentifierName(
+    const identifierBody = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       BODY_IDENTIFIER
     );

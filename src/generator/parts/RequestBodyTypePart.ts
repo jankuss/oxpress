@@ -1,13 +1,14 @@
 import { GeneratorPart, GeneratorPartOptions, Route } from "../types";
 
 import { BODY_IDENTIFIER } from "../constants";
+import { GeneratorUtility } from "../GeneratorUtility";
 
 export class RequestBodyTypePart implements GeneratorPart {
   constructor(private _route: Route) {}
 
   async visit({ context, output }: GeneratorPartOptions): Promise<void> {
     const { path, method } = this._route;
-    const identifierBody = context.getRequestHandlerTypeIdentifierName(
+    const identifierBody = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       BODY_IDENTIFIER
     );

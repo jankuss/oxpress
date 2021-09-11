@@ -6,17 +6,18 @@ import {
   Response,
   Route,
 } from "../types";
+import { GeneratorUtility } from "../GeneratorUtility";
 
 export class ResponseTypePart implements GeneratorPart {
   constructor(private _route: Route) {}
 
   async visit({ context, output }: GeneratorPartOptions): Promise<void> {
-    const identifierResponse = context.getRequestHandlerTypeIdentifierName(
+    const identifierResponse = GeneratorUtility.getRouteSpecificIdentifier(
       this._route,
       RESPONSE_IDENTIFIER
     );
 
-    const responses = context.getResponsesForRoute(this._route);
+    const responses = GeneratorUtility.getResponsesForRoute(this._route);
 
     output.addContent(`export interface ${identifierResponse} extends Response {
 ${responses
@@ -32,14 +33,19 @@ const ResponseProperty = (
   route: Route,
   response: Response
 ) => {
-  const identifierResponse = context.getRequestHandlerTypeIdentifierName(
+  const identifierResponse = GeneratorUtility.getRouteSpecificIdentifier(
     route,
     RESPONSE_IDENTIFIER
   );
 
+  const bodyIdentifier = GeneratorUtility.getResponseBodyIdentifier(
+    route,
+    response
+  );
+
   let responseType = `this`;
   if (response.type === "application/json") {
-    responseType = `Omit<this, "json"> & { json: (body: ${response.bodyIdentifier}) => ${identifierResponse} };`;
+    responseType = `Omit<this, "json"> & { json: (body: ${bodyIdentifier}) => ${identifierResponse} };`;
   }
 
   return `status(code: ${response.status}): ${responseType}`;

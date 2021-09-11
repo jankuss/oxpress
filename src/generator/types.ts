@@ -21,20 +21,13 @@ export interface Response {
   status: number;
   type: string;
   content?: unknown;
-  bodyIdentifier: string;
+  route: Route;
 }
 
 export interface GeneratorContext {
   document: OpenAPI2 | OpenAPI3;
 
   getAllRoutes(): Route[];
-  getRequestHandlerTypeIdentifierName(route: Route, identifier: string): string;
-  getExpressRoute(value: string): string;
-  getResponsesForRoute(route: Route): Response[];
-  getRouteParametersOfKind<T extends ParameterObject["in"]>(
-    route: Route,
-    param: T
-  ): ParameterObject[];
 }
 
 export interface GeneratorOutput {

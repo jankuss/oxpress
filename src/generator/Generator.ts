@@ -26,6 +26,7 @@ import { ResponseBodyTypePart } from "./parts/ResponseBodyTypePart";
 import { GeneratorOutputImpl } from "./GeneratorOutputImpl";
 import { RequestTypePart } from "./parts/RequestTypePart";
 import { RequestBodyTypePart } from "./parts/RequestBodyTypePart";
+import { GeneratorUtility } from "./GeneratorUtility";
 
 const validMethods = new Set([
   "get",
@@ -58,7 +59,7 @@ export class Generator implements GeneratorContext {
       this._parts.push(new RequestQueryTypePart(route));
       this._parts.push(new RequestBodyTypePart(route));
       this._parts.push(new RequestParamsTypePart(route));
-      for (const response of this.getResponsesForRoute(route)) {
+      for (const response of GeneratorUtility.getResponsesForRoute(route)) {
         this._parts.push(new ResponseBodyTypePart(route, response));
       }
       this._parts.push(new ResponseTypePart(route));
@@ -75,43 +76,6 @@ export class Generator implements GeneratorContext {
     }
 
     return output.toString();
-  }
-
-  getExpressRoute(value: string): string {
-    return value.replace(routeParamRegex, ":$1");
-  }
-
-  getResponsesForRoute(route: Route): Response[] {
-    const responses = route.operation?.responses ?? {};
-    const arr: Response[] = [];
-
-    for (const status in responses) {
-      const response = responses[status];
-      if ("$ref" in response) continue;
-
-      for (const contentType in response.content) {
-        arr.push({
-          status: Number(status),
-          content: response.content[contentType],
-          type: contentType,
-          bodyIdentifier: this.getRequestHandlerTypeIdentifierName(
-            route,
-            `ResponseBody${status}${contentType
-              .split("/")
-              .map((value) => upperFirst(value))
-              .join("")}`
-          ),
-        });
-      }
-    }
-
-    return arr;
-  }
-
-  public getRequestHandlerTypeIdentifierName(route: Route, name: string) {
-    const uniqueRouteIdentifier = this.getUniqueRouteIdentifier(route);
-
-    return `${uniqueRouteIdentifier}${name}`;
   }
 
   public getAllRoutes(): Route[] {
@@ -133,34 +97,4 @@ export class Generator implements GeneratorContext {
 
     return routes;
   }
-
-  public getRouteParametersOfKind<T extends ParameterObject["in"]>(
-    route: Route,
-    param: T
-  ) {
-    const result =
-      route.operation?.parameters?.filter((p) => {
-        if ("$ref" in p) {
-          return false;
-        } else {
-          return p.in === param;
-        }
-      }) ?? [];
-
-    return result as ParameterObject[];
-  }
-
-  private getUniqueRouteIdentifier(route: Route) {
-    let str = "";
-    str += upperFirst(route.method);
-    str += route.path
-      .split("/")
-      .map((value) => value.replace(routeParamRegex, "$1"))
-      .map((value) => upperFirst(value))
-      .join("");
-
-    return str;
-  }
 }
-
-const routeParamRegex = /{(.+?)}/gm;
