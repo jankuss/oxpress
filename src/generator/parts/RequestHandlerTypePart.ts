@@ -29,11 +29,11 @@ export class RequestHandlerTypePart implements GeneratorPart {
     );
 
     output.addContent(`export interface ${identifierRequestHandler} {
-    (
-        req: ${identifierRequest},
-        res: ${identifierResponse},
-        next: NextFunction,
-    ): void;
+  (
+    req: ${identifierRequest},
+    res: ${identifierResponse},
+    next: NextFunction,
+  ): void;
 }`);
   }
 }

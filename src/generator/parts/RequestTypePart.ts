@@ -30,7 +30,7 @@ export class RequestTypePart implements GeneratorPart {
     );
 
     output.addContent(
-      `export type ${identifierRequest} = Request<${identifierPathParams}, any, ${identifierBody}, ${identifierQuery}, any>`
+      `export type ${identifierRequest} = Request<${identifierPathParams}, any, ${identifierBody}, ${identifierQuery}, any>;`
     );
   }
 }

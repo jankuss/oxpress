@@ -21,9 +21,9 @@ export class ResponseTypePart implements GeneratorPart {
 
     output.addContent(`export interface ${identifierResponse} extends Response {
 ${responses
-  .map((response) => ResponseProperty(context, this._route, response))
+  .map((response) => `  ${ResponseProperty(context, this._route, response)}`)
   .join("\n")}
-status(code: number): this;
+  status(code: number): this;
 }`);
   }
 }
