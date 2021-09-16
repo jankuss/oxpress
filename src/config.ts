@@ -1,9 +1,9 @@
 import * as path from "path";
 import { GeneratorConfig } from "./generator/types";
-import * as deepMerge from "deepmerge";
+import deepMerge from "deepmerge";
 
 export function getConfig(commandParams: Partial<CommandOptions>) {
-  let configFileContent: DeepPartial<ConfigOptions> = {};
+  let configFileContent: DeepPartial<ConfigOptions>;
   configFileContent = require(path.resolve(
     commandParams.config ?? defaultConfigPath
   ));
@@ -38,6 +38,7 @@ export interface CommonOptions {
 
 export interface CommandOptions extends CommonOptions {
   config: string;
+  watch?: boolean;
 }
 
 export interface ConfigOptions extends CommonOptions {

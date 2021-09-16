@@ -24,7 +24,7 @@ export class GeneratorOutputImpl implements GeneratorOutput {
     let str = "";
     if (this._headers.length > 0) {
       str += this._headers.join("\n");
-      str += "\n";
+      str += "\n\n";
     }
     str += this._content.join("\n\n");
 

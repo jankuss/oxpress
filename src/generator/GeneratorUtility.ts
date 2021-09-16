@@ -82,6 +82,14 @@ export class GeneratorUtility {
         .join("")}`
     );
   }
+
+  static getCommonDescription(props?: {
+    description?: string;
+    summary?: string;
+  }) {
+    if (props == null) return;
+    return props.description ?? props.summary;
+  }
 }
 
 const routeParamRegex = /{(.+?)}/gm;

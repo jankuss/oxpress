@@ -17,11 +17,9 @@ const RouteType = (context: GeneratorContext) => {
   const allRoutes = context.getAllRoutes();
 
   return `// @ts-ignore
-    export interface TypedExpressRouter implements IRouter {
-        ${allRoutes
-          .map((route) => RouteTypeProperty(context, route))
-          .join("\n")}
-    }`;
+export interface TypedExpressRouter implements IRouter {
+${allRoutes.map((route) => RouteTypeProperty(context, route)).join("\n")}
+}`;
 };
 
 const RouteTypeProperty = (context: GeneratorContext, route: Route) => {
@@ -34,12 +32,14 @@ const RouteTypeProperty = (context: GeneratorContext, route: Route) => {
   const expressRoute = GeneratorUtility.getExpressRoute(path);
 
   const strings: string[] = [];
-  if (route.operation?.summary != null) {
-    strings.push(`/** ${route.operation.summary} */`);
+  const description = GeneratorUtility.getCommonDescription(route.operation);
+
+  if (description != null) {
+    strings.push(`  /** ${description} */`);
   }
 
   strings.push(
-    `${method}(path: "${expressRoute}", handler: ${handlerIdentifier}): void;`
+    `  ${method}(path: "${expressRoute}", handler: ${handlerIdentifier}): void;`
   );
   return strings.join("\n");
 };

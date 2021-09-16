@@ -2,13 +2,7 @@ import {
   INLINE_DOCUMENT_IDENTIFIER,
   VALIDATION_MIDDLEWARE_IDENTIFIER,
 } from "../constants";
-import {
-  GeneratorConfig,
-  GeneratorContext,
-  GeneratorOutput,
-  GeneratorPart,
-  GeneratorPartOptions,
-} from "../types";
+import { GeneratorPart, GeneratorPartOptions } from "../types";
 
 export class ValidationMiddlewarePart implements GeneratorPart {
   async visit({
@@ -25,9 +19,9 @@ export class ValidationMiddlewarePart implements GeneratorPart {
 
 export const MiddlewareInstantiation = () => {
   return `export const ${VALIDATION_MIDDLEWARE_IDENTIFIER} = OpenApiValidator.middleware({
-    apiSpec: ${INLINE_DOCUMENT_IDENTIFIER},
-    validateResponses: true,
-    validateRequests: true
+  apiSpec: ${INLINE_DOCUMENT_IDENTIFIER},
+  validateResponses: true,
+  validateRequests: true
 });`;
 };
 

@@ -1,281 +1,37 @@
 openapi: 3.0.0
 info:
-  title: Groover API
-  description: The general Groover API
+  title: Oxpress Test API
   version: 1.0.0
 paths:
-  /v1/events/{id}:
+  /v1/users/{userId}:
     get:
+      description: |
+        ## Get user details
+        This endpoint returns the user details
       parameters:
         - in: path
-          name: id
+          name: userId
           schema:
             type: string
           required: true
-          description: ID of the event to get the details from
-      summary: "Get the event details"
-      responses:
+      responses: 
         '200':
-          description: The event details
+          description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EventDetails"
-  /v1/events/{id}/favorite:
-    put:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the event to favorite
-      responses:
-        '200':
-          description: "A empty response"
-    delete:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the event to unfavorite
-      responses:
-        '200':
-          description: "A empty response"
-  /v1/clubs/{id}/favorite:
-    put:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the club to favorite
-      responses:
-        '200':
-          description: "A empty response"
-    delete:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the club to unfavorite
-      responses:
-        '200':
-          description: "A empty response"
-  /v1/events:
-    get:
-      parameters:
-        - in: query
-          name: lat
-          schema:
-            type: number
-          description: The current latitude
-          required: true
-        - in: query
-          name: lng
-          schema:
-            type: number
-          description: The current longitude
-          required: true
-        - in: query
-          name: radius
-          schema:
-            type: number
-          description: The current radius
-          required: true
-        - in: query
-          name: offset
-          schema:
-            type: number
-          description: The offset in the list
-          required: true
-      summary: "Events in the vicinity of the specified lat/lng and within the radius"
-      responses:
-        '200':
-          description: A array of events
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
-  /v1/clubs:
-    get:
-      parameters:
-        - in: query
-          name: lat
-          schema:
-            type: number
-          description: The current latitude
-        - in: query
-          name: lng
-          schema:
-            type: number
-          description: The current longitude
-        - in: query
-          name: radius
-          schema:
-            type: number
-          description: The current radius
-      summary: "Clubs in the vicinity of the specified lat/lng and within the radius"
-      responses:
-        '200':
-          description: A array of clubs
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ClubForEvent'
-  /v1/clubs/{id}:
-    get:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the club to get the details from
-      summary: "Get the club details"
-      responses:
-        '200':
-          description: The club details
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ClubDetails"
-  /v1/favoriteevents:
-    get:
-      summary: "Get the favorited events"
-      responses:
-        '200':
-          description: The favorited events
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Favorites"
+                $ref: '#/components/schemas/User'
 components:
   schemas:
-    Favorites:
-      type: object
-      properties:
-        favoriteEvents:
-          type: array
-          items:
-            $ref: "#/components/schemas/Event"
-        fromClubs:
-          type: array
-          items:
-            $ref: "#/components/schemas/Event"
-    EventDetails:
-      type: object
-      properties:
-        campaigns:
-          type: array
-          items:
-            $ref: "#/components/schemas/Redemption"
-    Redemption:
-      properties:
-        code:
-          type: string
-          description: "The redemption code"
-        description:
-          type: string
-          description: "A custom description for the campaign"
-        type:
-          type: string
-          description: "The campaign type"
-    ClubDetails:
-      type: object
-      properties:
-        club:
-          $ref: "#/components/schemas/ClubForEvent"
-          description: "Basic club information"
-        events:
-          type: array
-          items:
-            $ref: "#/components/schemas/Event"
-        description:
-          type: string
-          description: "Description of the club"
-    Event:
+    User:
       type: object
       properties:
         id:
           type: string
-          description: The event id
-          example: "a9sDS32"
-        name:
-          type: string
-          description: Name of the event
-          example: "Studienstag im Studio"
-        description:
-          type: string
-          description: Description of the event
-          example: "Studienstag ist eine coole Party"
-        startTime:
-          type: string
-          description: The start time of the event
-          example: "2011-10-05T14:48:00.000Z"
-          format: date-time
-        endTime:
-          type: string
-          description: The end time of the event
-          example: "2011-10-05T14:48:00.000Z"
-          format: date-time
-        image:
-          type: string
-          description: Url of the image
-          example: "https://images.grooverapp.de/event.png"
-        lat:
-          type: number
-          description: Latitute of the event
-          example: 49.5
-        lng:
-          type: number
-          description: Longitude of the event
-          example: 9.9
-        distance:
-          type: number
-          description: Distance from the event to the lat/lng position
-          example: 5.3
-        startDate:
-          type: string
-          description: Start Date
-          example: "2011-10-10"
-          format: date
-        favorite:
-          type: string
-          enum:
-            - favorite
-            - unfavorite
-        club:
-          $ref: '#/components/schemas/ClubForEvent'
-    ClubForEvent:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The club id
-        name:
-          type: string
-          description: Name of the club
-        image:
-          type: string
-          description: Url to the club image
-        eventCount:
+
+        age:
           type: integer
-          description: The number of events for the club
-        cityName:
-          type: string
-          description: Name of the city the club is in
-        favorite:
-          type: string
-          enum:
-            - favorite
-            - unfavorite
+      required:
+        - "id"
+        - "age"
+

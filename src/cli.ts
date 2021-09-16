@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { promises as fs } from "fs";
+import { promises as fs, watch as fsWatch } from "fs";
+
 import { Generator } from "./generator/Generator";
-import * as SwaggerParser from "@apidevtools/swagger-parser";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import { resolveConfig, format } from "prettier";
-import * as vm from "vm";
-import * as path from "path";
-import { GeneratorConfig } from "./generator/types";
-import * as deepMerge from "deepmerge";
-import { CommandOptions, getConfig } from "./config";
+import { CommandOptions, ConfigOptions, getConfig } from "./config";
 
 const program = new Command();
 program
@@ -20,18 +17,60 @@ program
     "The input swagger file to generate from."
   )
   .option("-c, --config <configPath>", "The config file.")
+  .option("-w, --watch", "Start generator in watch mode")
   .action(async (commandParams: Partial<CommandOptions>) => {
     const config = getConfig(commandParams);
 
-    const validated = await SwaggerParser.validate(config.swagger);
-    const generator = new Generator(config.generator, validated as any);
-    const result = await generator.parse();
-
-    const prettierConfig = await resolveConfig(config.out);
-
-    await fs.writeFile(
-      config.out,
-      format(result, prettierConfig ?? { parser: "typescript" })
-    );
+    if (commandParams.watch === true) {
+      runInWatchMode(config);
+    } else {
+      await run(config);
+    }
   })
   .parse(process.argv);
+
+async function runInWatchMode(config: ConfigOptions) {
+  let timeout: any;
+  let currentRun: Promise<void> | undefined;
+
+  console.log(`Watching for changes in "${config.swagger}"`);
+  const onChange = () => {
+    process.stdout.cursorTo(0, 0);
+    process.stdout.clearScreenDown();
+    console.log(`Generating "${config.out}"`);
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+      await currentRun;
+
+      currentRun = Promise.resolve().then(async () => {
+        try {
+          await run(config);
+          console.log("✅ Generated successfully");
+        } catch (e: any) {
+          console.log(`❌ Failed to regenerate: ${e.message}`);
+        }
+      });
+    }, 500);
+  };
+
+  onChange();
+  fsWatch(config.swagger, onChange);
+}
+
+async function run(config: ConfigOptions) {
+  const validated = await SwaggerParser.validate(config.swagger);
+
+  console.log(JSON.stringify(validated, null, 2));
+
+  const generator = new Generator(config.generator, validated as any);
+  const result = await generator.parse();
+
+  const prettierConfig = await resolveConfig(config.out);
+
+  await fs.writeFile(
+    config.out,
+    format(result, prettierConfig ?? { parser: "typescript" })
+  );
+}

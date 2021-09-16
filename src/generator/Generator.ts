@@ -1,15 +1,8 @@
-import openapiTS, {
-  OpenAPI2,
-  OpenAPI3,
-  OperationObject,
-  ParameterObject,
-} from "openapi-typescript";
-import { join, upperFirst } from "lodash";
+import { OpenAPI3 } from "openapi-typescript";
 import {
   GeneratorConfig,
   GeneratorContext,
   GeneratorPart,
-  Response,
   Route,
 } from "./types";
 import { ExpressImportsPart } from "./parts/ExpressImportsPart";
@@ -39,33 +32,43 @@ const validMethods = new Set([
   "trace",
 ]);
 
+const getDefaultParts = (context: GeneratorContext) => {
+  const parts: GeneratorPart[] = [];
+
+  parts.push(new ExpressImportsPart());
+  parts.push(new OpenApiTypescriptTypesPart());
+  parts.push(new InlineDocumentPart());
+  parts.push(new RouterTypePart());
+  parts.push(new ValidationMiddlewarePart());
+  parts.push(new WrapFunctionPart());
+
+  for (const route of context.getAllRoutes()) {
+    parts.push(new RequestTypePart(route));
+    parts.push(new RequestQueryTypePart(route));
+    parts.push(new RequestBodyTypePart(route));
+    parts.push(new RequestParamsTypePart(route));
+    for (const response of GeneratorUtility.getResponsesForRoute(route)) {
+      parts.push(new ResponseBodyTypePart(route, response));
+    }
+    parts.push(new ResponseTypePart(route));
+    parts.push(new ResponseTypePart(route));
+    parts.push(new RequestHandlerTypePart(route));
+  }
+
+  return parts;
+};
+
+export type OpenAPIDocument = OpenAPI3 & { info: any };
+
 export class Generator implements GeneratorContext {
   private _parts: GeneratorPart[] = [];
 
   constructor(
     public readonly config: GeneratorConfig,
-    public readonly document: OpenAPI2 | OpenAPI3
+    public readonly document: OpenAPIDocument,
+    private getParts = getDefaultParts
   ) {
-    this._parts.push(new ExpressImportsPart());
-    this._parts.push(new OpenApiTypescriptTypesPart());
-    this._parts.push(new InlineDocumentPart());
-    this._parts.push(new RouterTypePart());
-
-    this._parts.push(new ValidationMiddlewarePart());
-    this._parts.push(new WrapFunctionPart());
-
-    for (const route of this.getAllRoutes()) {
-      this._parts.push(new RequestTypePart(route));
-      this._parts.push(new RequestQueryTypePart(route));
-      this._parts.push(new RequestBodyTypePart(route));
-      this._parts.push(new RequestParamsTypePart(route));
-      for (const response of GeneratorUtility.getResponsesForRoute(route)) {
-        this._parts.push(new ResponseBodyTypePart(route, response));
-      }
-      this._parts.push(new ResponseTypePart(route));
-      this._parts.push(new ResponseTypePart(route));
-      this._parts.push(new RequestHandlerTypePart(route));
-    }
+    this._parts = getParts(this);
   }
 
   async parse() {

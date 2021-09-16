@@ -6,10 +6,12 @@
     "sourceMap": true,
     "strict": true,
     "lib": [],
-    "outDir": "dist"
+    "outDir": "dist",
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
-    "example"
+    "example",
+    "tests"
   ]
 }
