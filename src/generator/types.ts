@@ -1,6 +1,4 @@
-import { OpenAPI2, OpenAPI3, OperationObject } from "openapi-typescript";
-import { OpenAPIV3_1 } from "openapi-types";
-import SchemaObject = OpenAPIV3_1.SchemaObject;
+import { OpenAPI3, OperationObject, SchemaObject } from "openapi-typescript";
 
 export interface GeneratorConfig {
   validation: boolean;

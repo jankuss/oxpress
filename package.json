@@ -1,9 +1,9 @@
 {
   "peerDependencies": {
-    "express": "*",
-    "typescript": "*",
     "@types/express": "*",
-    "express-openapi-validator": "^4.0.0"
+    "express": "*",
+    "express-openapi-validator": "^4.0.0",
+    "typescript": "*"
   },
   "name": "oxpress",
   "version": "0.1.0",
