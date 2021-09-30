@@ -12,7 +12,7 @@ paths:
         - in: path
           name: userId
           schema:
-            type: string
+            type: integer
           required: true
       responses: 
         '200':
@@ -31,7 +31,11 @@ components:
 
         age:
           type: integer
+
+        name:
+          type: string
       required:
         - "id"
         - "age"
+        - "name"
 

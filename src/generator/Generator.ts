@@ -20,6 +20,7 @@ import { GeneratorOutputImpl } from "./GeneratorOutputImpl";
 import { RequestTypePart } from "./parts/RequestTypePart";
 import { RequestBodyTypePart } from "./parts/RequestBodyTypePart";
 import { GeneratorUtility } from "./GeneratorUtility";
+import { GeneratedFileCommentPart } from "./parts/GeneratedFileCommentPart";
 
 const validMethods = new Set([
   "get",
@@ -35,6 +36,7 @@ const validMethods = new Set([
 const getDefaultParts = (context: GeneratorContext) => {
   const parts: GeneratorPart[] = [];
 
+  parts.push(new GeneratedFileCommentPart());
   parts.push(new ExpressImportsPart());
   parts.push(new OpenApiTypescriptTypesPart());
   parts.push(new InlineDocumentPart());
@@ -58,10 +60,10 @@ const getDefaultParts = (context: GeneratorContext) => {
   return parts;
 };
 
-export type OpenAPIDocument = OpenAPI3 & { info: any };
+export type OpenAPIDocument = OpenAPI3 & { info?: any };
 
 export class Generator implements GeneratorContext {
-  private _parts: GeneratorPart[] = [];
+  private readonly _parts: GeneratorPart[] = [];
 
   constructor(
     public readonly config: GeneratorConfig,

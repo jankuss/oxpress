@@ -10,7 +10,7 @@ export class ValidationMiddlewarePart implements GeneratorPart {
     config,
     context,
   }: GeneratorPartOptions): Promise<void> {
-    if (!config.validationMiddleware) return;
+    if (!config.validation) return;
 
     output.addHeader(MiddlewareImport());
     output.addContent(MiddlewareInstantiation());

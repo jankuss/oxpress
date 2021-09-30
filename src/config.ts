@@ -2,38 +2,64 @@ import * as path from "path";
 import { GeneratorConfig } from "./generator/types";
 import deepMerge from "deepmerge";
 
-export function getConfig(commandParams: Partial<CommandOptions>) {
-  let configFileContent: DeepPartial<ConfigOptions>;
-  configFileContent = require(path.resolve(
-    commandParams.config ?? defaultConfigPath
-  ));
+export const hasExpressOpenApiValidator = () => {
+  try {
+    require("express-openapi-validator");
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
-  return [defaultConfig, configFileContent, commandParams].reduce((a, b) =>
-    deepMerge(a, b)
+export function getConfig(commandParams: Partial<CommandOptions>) {
+  let configFileContent: DeepPartial<ConfigOptions> = {};
+
+  try {
+    configFileContent = require(path.resolve(
+      commandParams.config ?? defaultConfigPath
+    ));
+  } catch (e) {}
+
+  const defaultConfigWithOverrides = getDefaultConfigWithEnvironmentOverrides();
+
+  return [defaultConfigWithOverrides, configFileContent, commandParams].reduce(
+    (a, b) => deepMerge(a, b)
   ) as ConfigOptions;
 }
 
 const defaultConfigPath = "./oxpress.config.js";
 
 export const defaultGeneratorOptions: GeneratorConfig = {
-  validationMiddleware: true,
-  invokeValidationMiddleware: true,
-  validatorOptions: { validateResponses: true, validateRequests: true },
+  validation: true,
+  autoInvokeValidationMiddleware: true,
 };
 
-const defaultConfig: ConfigOptions = {
+export const defaultConfig: ConfigOptions = {
   generator: defaultGeneratorOptions,
-  out: "./oxpress.generated.ts",
-  swagger: "./swagger.yaml",
+  output: "./oxpress.generated.ts",
+  input: "./swagger.yaml",
 };
+
+function getDefaultConfigWithEnvironmentOverrides() {
+  if (!hasExpressOpenApiValidator()) {
+    return deepMerge(defaultConfig, {
+      generator: {
+        validationMiddleware: false,
+        invokeValidationMiddleware: false,
+      },
+    });
+  }
+
+  return defaultConfig;
+}
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
 export interface CommonOptions {
-  out: string;
-  swagger: string;
+  output: string;
+  input: string;
 }
 
 export interface CommandOptions extends CommonOptions {

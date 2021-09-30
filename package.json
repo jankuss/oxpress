@@ -1,8 +1,9 @@
 {
   "peerDependencies": {
-    "express": "^4.17.1",
-    "express-openapi-validator": "^4.13.0",
-    "typescript": "^4.4.2"
+    "express": "*",
+    "typescript": "*",
+    "@types/express": "*",
+    "express-openapi-validator": "^4.0.0"
   },
   "name": "oxpress",
   "version": "1.0.0",
@@ -12,6 +13,7 @@
     "@apidevtools/swagger-parser": "^10.0.3",
     "commander": "^8.1.0",
     "deepmerge": "^4.2.2",
+    "find-up": "^4.1.0",
     "jest": "^27.1.1",
     "lodash": "^4.17.21",
     "openapi-typescript": "^4.0.2",

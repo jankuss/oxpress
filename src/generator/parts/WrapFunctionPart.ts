@@ -8,7 +8,7 @@ export class WrapFunctionPart implements GeneratorPart {
   async visit({ output, config }: GeneratorPartOptions): Promise<void> {
     const content: string[] = [];
 
-    if (config.invokeValidationMiddleware) {
+    if (config.autoInvokeValidationMiddleware && config.validation) {
       content.push(`router.use(${VALIDATION_MIDDLEWARE_IDENTIFIER});`);
     }
 

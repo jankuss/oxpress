@@ -9,3 +9,9 @@ test("returns a valid express route with params", () => {
     "/v1/events/:id"
   );
 });
+
+test("returns a valid express route for multiple parameters", () => {
+  expect(
+    GeneratorUtility.getExpressRoute("/v1/events/{eventId}/users/{userId}")
+  ).toEqual("/v1/events/:eventId/users/:userId");
+});
