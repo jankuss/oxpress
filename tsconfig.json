@@ -2,12 +2,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "sourceMap": false,
     "strict": true,
     "lib": [],
     "outDir": "dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true
   },
   "exclude": [
     "node_modules",
