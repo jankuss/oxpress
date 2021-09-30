@@ -8,6 +8,6 @@ router.get("/v1/users/:userId", (req, res) => {
   res.status(200).json({
     age: 21,
     name: "Jan",
-    id: req.params.userId,
+    id: "123",
   });
 });
