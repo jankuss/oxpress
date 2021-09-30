@@ -37,8 +37,10 @@
   },
   "scripts": {
     "start": "ts-node src/cli.ts",
-    "build": "tsc",
-    "test": "jest"
+    "build": "yarn clean && tsc",
+    "test": "jest",
+    "prepare": "yarn build",
+    "clean": "rm -rf dist"
   },
   "bin": {
     "oxpress": "dist/cli.js"

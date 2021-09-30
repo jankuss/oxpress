@@ -1,1 +1,2 @@
-export { Generator } from "./generator/Generator";
+export { Generator, OpenAPIDocument } from "./generator/Generator";
+export { GeneratorConfig, Route } from "./generator/types";
