@@ -14,7 +14,6 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
     favicon: "img/logo.png",
     organizationName: "jankuss", // Usually your GitHub org/user name.
     projectName: "oxpress", // Usually your repo name.
-
     presets: [
       [
         "@docusaurus/preset-classic",
@@ -35,6 +34,10 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
     themeConfig:
       /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
       ({
+        footer: {
+          copyright:
+            '<div>Ox icon in logo made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+        },
         navbar: {
           title: "oxpress",
           logo: {
