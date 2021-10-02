@@ -32,3 +32,7 @@ The following parts of Express are fully typed by oxpress:
 
 Oxpress uses `express-openapi-validator` by default to validate parameters. This ensures,
 that your beautifully typed parameters and responses are also type safe during runtime.
+
+#### Attributions
+
+Ox icon in Logo made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)
