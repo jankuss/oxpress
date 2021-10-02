@@ -7,13 +7,13 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
   module.exports = {
     title: "oxpress",
     tagline: "Type-Safety for your Express API Server",
-    url: "https://your-docusaurus-test-site.com",
-    baseUrl: "/",
+    url: "https://jankuss.github.io",
+    baseUrl: "/oxpress/",
     onBrokenLinks: "throw",
     onBrokenMarkdownLinks: "warn",
     favicon: "img/logo.png",
-    organizationName: "facebook", // Usually your GitHub org/user name.
-    projectName: "docusaurus", // Usually your repo name.
+    organizationName: "jankuss", // Usually your GitHub org/user name.
+    projectName: "oxpress", // Usually your repo name.
 
     presets: [
       [
