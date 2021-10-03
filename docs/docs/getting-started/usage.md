@@ -31,7 +31,7 @@ module.exports = {
 };
 ```
 
-To learn more about all the different available options, check out the [Configuration](/configuration) section.
+To learn more about all the different available options, check out the [Configuration](/docs/configuration) section.
 
 ## Running the generator
 
