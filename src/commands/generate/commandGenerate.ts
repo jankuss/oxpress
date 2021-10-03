@@ -10,7 +10,10 @@ import { handleGenerate } from "./handleGenerate";
 export const commandGenerate = async (
   commandParams: Partial<CommandOptions>
 ) => {
-  const config = getConfig(commandParams);
+  const config = getConfig(commandParams, {
+    requireConfigFile: (path) => require(path),
+    hasExpressOpenApiValidator: hasExpressOpenApiValidator,
+  });
 
   if (commandParams.watch === true) {
     await runInWatchMode(config);

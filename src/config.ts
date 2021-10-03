@@ -11,16 +11,23 @@ export const hasExpressOpenApiValidator = () => {
   }
 };
 
-export function getConfig(commandParams: Partial<CommandOptions>) {
+export function getConfig(
+  commandParams: Partial<CommandOptions>,
+  deps: {
+    hasExpressOpenApiValidator: () => boolean;
+    requireConfigFile: (path: string) => any;
+  }
+) {
   let configFileContent: DeepPartial<ConfigOptions> = {};
 
   try {
-    configFileContent = require(path.resolve(
-      commandParams.config ?? defaultConfigPath
-    ));
+    configFileContent = deps.requireConfigFile(
+      path.resolve(commandParams.config ?? defaultConfigPath)
+    );
   } catch (e) {}
 
-  const defaultConfigWithOverrides = getDefaultConfigWithEnvironmentOverrides();
+  const defaultConfigWithOverrides =
+    getDefaultConfigWithEnvironmentOverrides(deps);
 
   return [defaultConfigWithOverrides, configFileContent, commandParams].reduce(
     (a, b) => deepMerge(a, b)
@@ -40,12 +47,14 @@ export const defaultConfig: ConfigOptions = {
   input: "./swagger.yaml",
 };
 
-function getDefaultConfigWithEnvironmentOverrides() {
-  if (!hasExpressOpenApiValidator()) {
+function getDefaultConfigWithEnvironmentOverrides(deps: {
+  hasExpressOpenApiValidator: () => boolean;
+}) {
+  if (!deps.hasExpressOpenApiValidator()) {
     return deepMerge(defaultConfig, {
       generator: {
-        validationMiddleware: false,
-        invokeValidationMiddleware: false,
+        validation: false,
+        autoInvokeValidationMiddleware: false,
       },
     });
   }
