@@ -20,7 +20,7 @@ export async function handleGenerate(
 
     if (!checkHasExpressOpenApiValidator()) {
       str.push(
-        `If this is unintentional, make sure you have the "express-openapi-validator" package installed. In case you want to generate the middleware anyway, set the 'validationMiddleware' and 'invokeValidationMiddleware' options to true.`
+        `If this is unintentional, make sure you have the "express-openapi-validator" package installed. In case you want to generate the middleware anyway, set the 'validation' and 'autoInvokeValidationMiddleware' options to true.`
       );
     }
 

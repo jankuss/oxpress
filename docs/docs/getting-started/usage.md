@@ -12,7 +12,7 @@ It should look like the following:
 ```
 module.exports = {
   output: "./oxpress.generated.ts",
-  input: "./swagger.yaml",
+  input: "./openapi.yaml",
 };
 ```
 
@@ -21,13 +21,13 @@ where:
 - `output` is the path to the generated output file
 
 Modify both of these settings to fit your needs.
-Let's say our input file is named differently (`test.swagger.yaml`) and our output should go into a `src` folder.
+Let's say our input file is named differently (`test.openapi.yaml`) and our output should go into a `src` folder.
 Then this config should look like this:
 
 ```
 module.exports = {
   output: "./src/oxpress.generated.ts",
-  input: "./test.swagger.yaml",
+  input: "./test.openapi.yaml",
 };
 ```
 

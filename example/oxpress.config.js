@@ -1,4 +1,4 @@
 module.exports = {
   output: "./src/oxpress.generated.ts",
-  input: "./example.swagger.yaml",
+  input: "./example.openapi.yaml",
 };

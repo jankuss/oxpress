@@ -62,7 +62,7 @@ test("creates config file", async () => {
     "/Projects/Project/oxpress.config.js",
     `module.exports = {
   "output": "./oxpress.generated.ts",
-  "input": "./swagger.yaml"
+  "input": "./openapi.yaml"
 };`
   );
 });
@@ -89,7 +89,7 @@ test("creates config file, but doesnt install dependencies when skipDeps is true
     "/Projects/Project/oxpress.config.js",
     `module.exports = {
   "output": "./oxpress.generated.ts",
-  "input": "./swagger.yaml"
+  "input": "./openapi.yaml"
 };`
   );
 });

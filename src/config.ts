@@ -44,7 +44,7 @@ export const defaultGeneratorOptions: GeneratorConfig = {
 export const defaultConfig: ConfigOptions = {
   generator: defaultGeneratorOptions,
   output: "./oxpress.generated.ts",
-  input: "./swagger.yaml",
+  input: "./openapi.yaml",
 };
 
 function getDefaultConfigWithEnvironmentOverrides(deps: {

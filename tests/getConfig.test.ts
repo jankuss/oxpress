@@ -12,7 +12,7 @@ test("returns default configuration when config file not found", () => {
       }
     )
   ).toEqual({
-    input: "./swagger.yaml",
+    input: "./openapi.yaml",
     output: "./oxpress.generated.ts",
     generator: {
       autoInvokeValidationMiddleware: true,
@@ -33,7 +33,7 @@ test("disables validation when express-openapi-validator not available", () => {
       }
     )
   ).toEqual({
-    input: "./swagger.yaml",
+    input: "./openapi.yaml",
     output: "./oxpress.generated.ts",
     generator: {
       autoInvokeValidationMiddleware: false,
