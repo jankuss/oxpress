@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Usage
 
-## Specifying input and output files
+## 1. Specifying input and output files
 
 Check the `oxpress.config.js` file, which was initialized in the previous step.
 It should look like the following:
@@ -31,9 +31,9 @@ module.exports = {
 };
 ```
 
-To learn more about all the different available options, check out the [Configuration](/configuration) section.
+To learn more about all the different available options, check out the [Configuration](/docs/configuration) section.
 
-## Running the generator
+## 2. Running the generator
 
 To generate the oxpress types, run the following command:
 
@@ -43,7 +43,7 @@ npx oxpress generate
 
 This will write the oxpress types into the specified file. You can now use oxpress with your Express application.
 
-### Running the generator in watch mode
+#### Running the generator in watch mode
 
 In case you are actively changing the underlying OpenAPI document, it might be handy to run the generator in watch mode.
 You can do this by running:
@@ -54,7 +54,7 @@ npx oxpress generate --watch
 
 Now, the generated oxpress types will always be in sync with your OpenAPI document.
 
-## Wrapping your application
+## 3. Wrapping your application
 
 To have the generated types within your express application, `oxpress` provides a `wrap` function.
 This `wrap` function will return a typed version of your express `Application` or `Router`.
