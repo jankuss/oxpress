@@ -1,6 +1,6 @@
 ![Logo of oxpress](logo.png)
 
-![npm](https://img.shields.io/npm/v/oxpress) ![Codecov](https://img.shields.io/codecov/c/github/jankuss/oxpress)
+[![npm](https://img.shields.io/npm/v/oxpress)](https://www.npmjs.com/package/oxpress) [![Codecov](https://img.shields.io/codecov/c/github/jankuss/oxpress)](https://codecov.io/gh/jankuss/oxpress)
 
 # What is oxpress?
 
