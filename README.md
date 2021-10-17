@@ -1,5 +1,7 @@
 ![Logo of oxpress](logo.png)
 
+![npm](https://img.shields.io/npm/v/oxpress) ![Codecov](https://img.shields.io/codecov/c/github/jankuss/oxpress)
+
 # What is oxpress?
 
 Do you like **TypeScript, Express and OpenAPI** and use those tools for **API development**?
