@@ -37,9 +37,9 @@
   },
   "scripts": {
     "start": "ts-node src/cli.ts",
-    "build": "yarn clean && tsc",
+    "build": "npm run clean && tsc",
     "test": "jest",
-    "prepare": "yarn build",
+    "prepublishOnly": "npm run build",
     "clean": "rm -rf dist"
   },
   "bin": {

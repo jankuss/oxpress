@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "oxpress": "^1.0.0",
+    "oxpress": "file:..",
     "typescript": "^4.4.3"
   },
   "scripts": {
