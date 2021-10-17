@@ -8,7 +8,7 @@ test("generates output", async () => {
 
   await handleGenerate(
     {
-      input: "./example/example.swagger.yaml",
+      input: "./example/example.openapi.yaml",
       output: "./test.generated.ts",
       generator: defaultConfig.generator,
     },
@@ -30,7 +30,7 @@ test("generates output with deactivated validation", async () => {
 
   await handleGenerate(
     {
-      input: "./example/example.swagger.yaml",
+      input: "./example/example.openapi.yaml",
       output: "./test.generated.ts",
       generator: {
         ...defaultConfig.generator,
@@ -57,7 +57,7 @@ test("generates output with deactivated validation, when validator not installed
 
   await handleGenerate(
     {
-      input: "./example/example.swagger.yaml",
+      input: "./example/example.openapi.yaml",
       output: "./test.generated.ts",
       generator: {
         ...defaultConfig.generator,
@@ -73,6 +73,6 @@ test("generates output with deactivated validation, when validator not installed
 
   expect(writeFile).toBeCalledWith("./test.generated.ts", expect.anything());
   expect(output).toEqual([
-    `ℹ️ The generation of the validation middleware is deactivated. Make sure you handle the validation of input on your own. If this is unintentional, make sure you have the "express-openapi-validator" package installed. In case you want to generate the middleware anyway, set the 'validationMiddleware' and 'invokeValidationMiddleware' options to true.`,
+    `ℹ️ The generation of the validation middleware is deactivated. Make sure you handle the validation of input on your own. If this is unintentional, make sure you have the "express-openapi-validator" package installed. In case you want to generate the middleware anyway, set the 'validation' and 'autoInvokeValidationMiddleware' options to true.`,
   ]);
 });
