@@ -16,14 +16,19 @@ export const commandGenerate = async (
   });
 
   if (commandParams.watch === true) {
+    // The generate command was started with the --watch parameter. Run it in watch mode.
+
     await runInWatchMode(config);
   } else {
+    // Run the generator once.
+
     try {
       await handleGenerate(config, {
         writeFile: fs.writeFile,
         log: console.log,
         checkHasExpressOpenApiValidator: hasExpressOpenApiValidator,
       });
+      console.log("✅ Generated successfully");
     } catch (e: any) {
       console.log(`❌ Failed to generate: ${e.message}`);
     }
